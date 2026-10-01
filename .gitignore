@@ -1,0 +1,12 @@
+web-ext-artifacts/
+*.zip
+*.xpi
+node_modules/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.env
