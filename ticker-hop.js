@@ -1,8 +1,21 @@
 const EXCHANGES = {
-    xcse: "OMXCOP",
-    xsto: "OMXSTO",
-    xhel: "OMXHEX",
-    xosl: "OSL",
+    // Nordics
+    xcse: "OMXCOP", // Nasdaq Copenhagen
+    xsto: "OMXSTO", // Nasdaq Stockholm
+    xhel: "OMXHEX", // Nasdaq Helsinki
+    xosl: "OSL", // Oslo Børs
+
+    // US
+    xnas: "NASDAQ",
+    xnys: "NYSE",
+    xase: "AMEX", // NYSE American
+
+    // Europe & Canada
+    xlon: "LSE", // London
+    xetr: "XETR", // Xetra
+    xfra: "FWB", // Frankfurt
+    xber: "BER", // Berlin
+    xtse: "TSX", // Toronto
 };
 
 function findSymbol() {
@@ -36,6 +49,12 @@ function checkPage() {
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.textContent = `${found.symbol} ↗`;
+
+    const icon = document.createElement("img");
+    icon.src = browser.runtime.getURL("icons/tradingview.svg");
+    icon.alt = "";
+    icon.className = "ticker-hop-icon";
+    link.prepend(icon);
 
     found.tickerNav.after(link);
 }

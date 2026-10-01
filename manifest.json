@@ -1,33 +1,33 @@
 {
-  "manifest_version": 3,
-  "name": "Ticker Hop",
-  "version": "1.0",
+    "manifest_version": 3,
+    "name": "Ticker Hop",
+    "version": "1.0",
 
-  "description": "Shows the ticker of the Nordnet stock you're viewing and opens it on TradingView.",
+    "description": "Shows the ticker of the Nordnet stock you're viewing and opens it on TradingView.",
 
-  "icons": {
-    "48": "icons/ticker-hop-48.png"
-  },
+    "icons": {},
 
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "ticker-hop@yourname",
-      "data_collection_permissions": {
-        "required": ["none"]
-      }
-    }
-  },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "ticker-hop@bobby",
+            "data_collection_permissions": {
+                "required": ["none"]
+            }
+        }
+    },
 
-  "content_scripts": [
-    {
-      "matches": [
-        "*://*.nordnet.dk/*",
-        "*://*.nordnet.se/*",
-        "*://*.nordnet.no/*",
-        "*://*.nordnet.fi/*"
-      ],
-      "js": ["ticker-hop.js"],
-      "css": ["ticker-hop.css"]
-    }
-  ]
+    "content_scripts": [
+        {
+            "matches": ["*://*.nordnet.dk/*", "*://*.nordnet.se/*", "*://*.nordnet.no/*", "*://*.nordnet.fi/*"],
+            "js": ["ticker-hop.js"],
+            "css": ["ticker-hop.css"]
+        }
+    ],
+
+    "web_accessible_resources": [
+        {
+            "resources": ["icons/tradingview.svg"],
+            "matches": ["*://*.nordnet.dk/*", "*://*.nordnet.se/*", "*://*.nordnet.no/*", "*://*.nordnet.fi/*"]
+        }
+    ]
 }
