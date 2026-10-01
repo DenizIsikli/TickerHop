@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Ticker Hop",
+  "version": "1.0",
+
+  "description": "Shows the ticker of the Nordnet stock you're viewing and opens it on TradingView.",
+
+  "icons": {
+    "48": "icons/ticker-hop-48.png"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ticker-hop@yourname",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.nordnet.dk/*",
+        "*://*.nordnet.se/*",
+        "*://*.nordnet.no/*",
+        "*://*.nordnet.fi/*"
+      ],
+      "js": ["ticker-hop.js"],
+      "css": ["ticker-hop.css"]
+    }
+  ]
+}
