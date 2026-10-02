@@ -1,21 +1,21 @@
 const EXCHANGES = {
     // Nordics
-    xcse: "OMXCOP", // Nasdaq Copenhagen
-    xsto: "OMXSTO", // Nasdaq Stockholm
-    xhel: "OMXHEX", // Nasdaq Helsinki
-    xosl: "OSL", // Oslo Børs
+    xcse: { tv: "OMXCOP", yahoo: ".CO" }, // Nasdaq Copenhagen
+    xsto: { tv: "OMXSTO", yahoo: ".ST" }, // Nasdaq Stockholm
+    xhel: { tv: "OMXHEX", yahoo: ".HE" }, // Nasdaq Helsinki
+    xosl: { tv: "OSL", yahoo: ".OL" }, // Oslo Børs
 
     // US
-    xnas: "NASDAQ",
-    xnys: "NYSE",
-    xase: "AMEX", // NYSE American
+    xnas: { tv: "NASDAQ", yahoo: "" },
+    xnys: { tv: "NYSE", yahoo: "" },
+    xase: { tv: "AMEX", yahoo: "" }, // NYSE American
 
     // Europe & Canada
-    xlon: "LSE", // London
-    xetr: "XETR", // Xetra
-    xfra: "FWB", // Frankfurt
-    xber: "BER", // Berlin
-    xtse: "TSX", // Toronto
+    xlon: { tv: "LSE", yahoo: ".L" }, // London
+    xetr: { tv: "XETR", yahoo: ".DE" }, // Xetra
+    xfra: { tv: "FWB", yahoo: ".F" }, // Frankfurt
+    xber: { tv: "BER", yahoo: ".BE" }, // Berlin
+    xtse: { tv: "TSX", yahoo: ".TO" }, // Toronto
 };
 
 function findSymbol() {
@@ -28,35 +28,59 @@ function findSymbol() {
     const tickerText = tickerNav?.querySelector("span:last-child")?.textContent.trim();
     if (!tickerText || !slug.includes(tickerText.toLowerCase().replace(/\s+/g, "-"))) return null;
 
-    return { symbol: `${exchange}:${tickerText.replace(/\s+/g, "_")}`, tickerNav };
+    return {
+        exchange,
+        tvSymbol: `${exchange.tv}:${tickerText.replace(/\s+/g, "_")}`,
+        yahooSymbol: `${tickerText.replace(/[\s.]+/g, "-")}${exchange.yahoo}`,
+        tickerNav,
+    };
+}
+
+function createLink(href, text, iconPath) {
+    const link = document.createElement("a");
+    link.className = "ticker-hop";
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = text;
+
+    const icon = document.createElement("img");
+    icon.src = browser.runtime.getURL(iconPath);
+    icon.alt = "";
+    icon.className = "ticker-hop-icon";
+    link.prepend(icon);
+
+    return link;
 }
 
 function checkPage() {
-    const existing = document.querySelector(".ticker-hop");
+    const existing = document.querySelector(".ticker-hop-container");
     const found = findSymbol();
 
     if (!found) {
         existing?.remove();
         return;
     }
-    if (existing?.dataset.symbol === found.symbol && existing.previousElementSibling === found.tickerNav) return;
+    if (existing?.dataset.symbol === found.tvSymbol && existing.previousElementSibling === found.tickerNav) return;
     existing?.remove();
 
-    const link = document.createElement("a");
-    link.className = "ticker-hop";
-    link.dataset.symbol = found.symbol;
-    link.href = `https://www.tradingview.com/chart/?symbol=${found.symbol}`;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = `${found.symbol} ↗`;
+    const container = document.createElement("div");
+    container.className = "ticker-hop-container";
+    container.dataset.symbol = found.tvSymbol;
+    container.append(
+        createLink(
+            `https://www.tradingview.com/chart/?symbol=${found.tvSymbol}`,
+            `${found.tvSymbol} ↗`,
+            "icons/tradingview.svg",
+        ),
+        createLink(
+            `https://finance.yahoo.com/quote/${found.yahooSymbol}`,
+            `${found.exchange.tv}:${found.yahooSymbol} ↗`,
+            "icons/yahoofinance.svg",
+        ),
+    );
 
-    const icon = document.createElement("img");
-    icon.src = browser.runtime.getURL("icons/tradingview.svg");
-    icon.alt = "";
-    icon.className = "ticker-hop-icon";
-    link.prepend(icon);
-
-    found.tickerNav.after(link);
+    found.tickerNav.after(container);
 }
 
 function schedule() {

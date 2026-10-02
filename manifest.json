@@ -26,7 +26,7 @@
 
     "web_accessible_resources": [
         {
-            "resources": ["icons/tradingview.svg"],
+            "resources": ["icons/tradingview.svg", "icons/yahoofinance.svg"],
             "matches": ["*://*.nordnet.dk/*", "*://*.nordnet.se/*", "*://*.nordnet.no/*", "*://*.nordnet.fi/*"]
         }
     ]
