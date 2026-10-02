@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Ticker Hop",
-    "version": "1.0",
+    "version": "1.1",
 
     "description": "Shows the ticker of the Nordnet stock you're viewing and opens it on TradingView.",
 
