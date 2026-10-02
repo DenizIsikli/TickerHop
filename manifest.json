@@ -1,11 +1,9 @@
 {
     "manifest_version": 3,
     "name": "Ticker Hop",
-    "version": "1.1",
+    "version": "1.2",
 
-    "description": "Shows the ticker of the Nordnet stock you're viewing and opens it on TradingView.",
-
-    "icons": {},
+    "description": "Shows the ticker of the Nordnet stock you're viewing and opens it on TradingView and Yahoo Finance.",
 
     "browser_specific_settings": {
         "gecko": {
@@ -15,6 +13,8 @@
             }
         }
     },
+
+    "host_permissions": ["*://*.nordnet.dk/*", "*://*.nordnet.se/*", "*://*.nordnet.no/*", "*://*.nordnet.fi/*"],
 
     "content_scripts": [
         {
