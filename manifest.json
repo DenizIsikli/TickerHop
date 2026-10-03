@@ -1,9 +1,14 @@
 {
     "manifest_version": 3,
     "name": "Ticker Hop",
-    "version": "1.2",
+    "version": "1.4",
 
-    "description": "Shows the ticker of the Nordnet stock you're viewing and opens it on TradingView and Yahoo Finance.",
+    "description": "Adds TradingView and Yahoo Finance links and price alerts to Nordnet stock pages.",
+
+    "permissions": ["notifications"],
+    "background": {
+        "scripts": ["src/background.js"]
+    },
 
     "browser_specific_settings": {
         "gecko": {
@@ -19,8 +24,13 @@
     "content_scripts": [
         {
             "matches": ["*://*.nordnet.dk/*", "*://*.nordnet.se/*", "*://*.nordnet.no/*", "*://*.nordnet.fi/*"],
-            "js": ["ticker-hop.js"],
-            "css": ["ticker-hop.css"]
+            "js": [
+                "src/core/stock.js",
+                "src/features/ticker-links/ticker-links.js",
+                "src/features/price-alert/price-alert.js",
+                "src/core/main.js"
+            ],
+            "css": ["src/features/ticker-links/ticker-links.css", "src/features/price-alert/price-alert.css"]
         }
     ],
 
